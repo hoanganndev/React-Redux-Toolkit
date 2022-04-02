@@ -29,5 +29,5 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 
 export default counterSlice.reducer;
 /**🔥🔥🔥
- * slice = action + state + reducer in redux basic
+ * slice = action + types + reducer in redux basic
  */
