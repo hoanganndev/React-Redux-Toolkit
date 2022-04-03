@@ -3,19 +3,21 @@ import { useEffect, useState } from "react";
 import { Container, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-
+import { fetchAllUsers } from "./redux/slices/userSlice";
 function App() {
     const dispatch = useDispatch();
-    const count = useSelector(state => state.counter.value);
-    const [listUsers, setListUsers] = useState([]);
-    const fetchAllUsers = async () => {
-        let res = await axios.get("http://localhost:8080/users/all");
-        console.log(">>> check data:", res.data);
-        setListUsers(res.data ? res.data : []);
-    };
+    const listUsers = useSelector(state => state.user.listUsers);
+    const isLoading = useSelector(state => state.user.isLoading);
+    const isError = useSelector(state => state.user.isError);
     useEffect(() => {
-        fetchAllUsers();
+        dispatch(fetchAllUsers());
     }, []);
+    if (isError == true && isLoading == false) {
+        return <div>Something wrong. Please try again !</div>;
+    }
+    if (isError == false && isLoading == true) {
+        return <div>Loading data ...</div>;
+    }
     return (
         <div className="App">
             <header className="App-header">
